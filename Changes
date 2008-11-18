@@ -1,0 +1,6 @@
+Revision history for Perl extension SANE.
+
+0.01  Mon Aug 25 16:37:33 2008
+	- original version; created by h2xs 1.23 with options
+		-A -n Sane
+

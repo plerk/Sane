@@ -1,7 +1,5 @@
-SANE version 0.01
-=================
-
 Sane - Perl extension for the SANE (Scanner Access Now Easy) Project
+====================================================================
 
 This module allows you to access SANE-compatible scanners in a Perlish and
 object-oriented way, freeing you from the casting and memory management in C,

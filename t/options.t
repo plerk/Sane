@@ -5,7 +5,7 @@
 
 # change 'tests => 1' to 'tests => last_test_to_print';
 
-use Test::More tests => 137;
+use Test::More tests => 139;
 BEGIN { use_ok('Sane') };
 
 #########################
@@ -15,6 +15,10 @@ BEGIN { use_ok('Sane') };
 
 my @array = Sane->get_version;
 is ($#array, 2, 'get_version');
+
+SKIP: {
+    skip "libsane 1.0.19 or better required", 135 unless $array[2] > 18;
+
 @array = Sane->get_devices;
 cmp_ok($Sane::STATUS, '==', SANE_STATUS_GOOD, 'get_devices');
 
@@ -84,7 +88,11 @@ if ($options->{name} eq 'enable-test-options') {
     }
    }
    if (defined $in) {
-    $info = $test->set_option($i, $in);
+    SKIP: {
+     skip 'Pressing buttons produces too much output', 1 unless $options->{type} != SANE_TYPE_BUTTON;
+
+     $info = $test->set_option($i, $in);
+    };
     if ($options->{cap} & SANE_CAP_INACTIVE) {
      cmp_ok($Sane::STATUS, '==', SANE_STATUS_INVAL, 'set_option');
     }
@@ -115,3 +123,4 @@ if ($options->{name} eq 'enable-test-options') {
   }
  }
 }
+};

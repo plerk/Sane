@@ -251,7 +251,7 @@ our @EXPORT = qw(
     SANE_NAME_LAMP_OFF_AT_EXIT
 );
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 our $DEBUG = 0;
 our ($STATUS, $_status, $_vc);
 
@@ -338,13 +338,13 @@ sub write_pnm_header {
 # to read the image.
 
 # For some reason, the #defines need parentheses here, but not normally
- if ($format == SANE_FRAME_RED() or $format == SANE_FRAME_GREEN() or
-                  $format == SANE_FRAME_BLUE() or $format == SANE_FRAME_RGB()) {
+ if ($format == Sane::SANE_FRAME_RED() or $format == Sane::SANE_FRAME_GREEN() or
+                  $format == Sane::SANE_FRAME_BLUE() or $format == Sane::SANE_FRAME_RGB()) {
   printf $fh "P6\n# SANE data follows\n%d %d\n%d\n", $width, $height,
 	      ($depth <= 8) ? 255 : 65535;
  }
 # For some reason, the #defines need parentheses here, but not normally
- elsif ($format == SANE_FRAME_GRAY()) {
+ elsif ($format == Sane::SANE_FRAME_GRAY()) {
   if ($depth == 1) {
    printf $fh "P4\n# SANE data follows\n%d %d\n", $width, $height;
   }
@@ -408,7 +408,7 @@ as dictated by the SANE standard, or the the corresponding message, as required.
 
 =head2 Sane->get_version
 
-Returns a array with the SANE_VERSION_(MAJOR|MINOR|BUILD) versions:
+Returns an array with the SANE_VERSION_(MAJOR|MINOR|BUILD) versions:
 
   join('.',Sane->get_version)
 
@@ -660,7 +660,7 @@ documentation should be considered the canonical source.
 
 =head1 AUTHOR
 
-Jeffrey Ratcliffe, E<lt>Jeffrey.Ratcliffe@gmail.com<gt>
+Jeffrey Ratcliffe, E<lt>Jeffrey.Ratcliffe@gmail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 

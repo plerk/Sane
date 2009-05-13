@@ -369,7 +369,9 @@ BOOT:
 	newCONSTSUB(stash, "SANE_CAP_AUTOMATIC", newSViv(SANE_CAP_AUTOMATIC));
 	newCONSTSUB(stash, "SANE_CAP_INACTIVE", newSViv(SANE_CAP_INACTIVE));
 	newCONSTSUB(stash, "SANE_CAP_ADVANCED", newSViv(SANE_CAP_ADVANCED));
+#ifdef SANE_CAP_ALWAYS_SETTABLE
 	newCONSTSUB(stash, "SANE_CAP_ALWAYS_SETTABLE", newSViv(SANE_CAP_ALWAYS_SETTABLE));
+#endif
 
 	newCONSTSUB(stash, "SANE_INFO_INEXACT", newSViv(SANE_INFO_INEXACT));
 	newCONSTSUB(stash, "SANE_INFO_RELOAD_OPTIONS", newSViv(SANE_INFO_RELOAD_OPTIONS));
@@ -549,7 +551,9 @@ sane__open(class, name)
                 SANE_Handle		h;
         PPCODE:
         	status = sane_open(name, &h);
-                SV* sv = get_sv("Sane::_status", FALSE);
+		SV* sv = get_sv("Sane::DEBUG", FALSE);
+		if (SvTRUE(sv)) printf("sane_open returned SANE_Handle %d\n", (int) h);
+                sv = get_sv("Sane::_status", FALSE);
                 sv_setiv(sv, status); 
                 if (status) {
                 	XPUSHs(sv_2mortal(newSV(0)));

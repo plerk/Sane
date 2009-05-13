@@ -1,11 +1,11 @@
 --- #YAML:1.0
 name:                Sane
-version:             0.02
+version:             0.03
 abstract:            Perl extension for the SANE (Scanner Access Now Easy) Project
 license:             ~
 author:              
     - Jeffrey Ratcliffe
-generated_by:        ExtUtils::MakeMaker version 6.44
+generated_by:        ExtUtils::MakeMaker version 6.42
 distribution_type:   module
 requires:     
 meta-spec:

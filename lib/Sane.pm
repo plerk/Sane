@@ -251,7 +251,7 @@ our @EXPORT = qw(
     SANE_NAME_LAMP_OFF_AT_EXIT
 );
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 our $DEBUG = 0;
 our ($STATUS, $_status, $_vc);
 
@@ -267,6 +267,18 @@ sub get_version {
   return undef if ($_status);
  }
  return Sane->_get_version($_vc);
+}
+
+
+sub get_version_scalar {
+ if (not $_vc) {
+  print "Running init\n" if $DEBUG;
+  $_vc = Sane->_init;
+  $STATUS = Sane::Status->new;
+  return undef if ($_status);
+ }
+ my @version = Sane->_get_version($_vc);
+ return $version[0]+$version[1]/1000+$version[2]/1000000;
 }
 
 
@@ -411,6 +423,12 @@ as dictated by the SANE standard, or the the corresponding message, as required.
 Returns an array with the SANE_VERSION_(MAJOR|MINOR|BUILD) versions:
 
   join('.',Sane->get_version)
+
+=head2 Sane->get_version_scalar
+
+Returns an scalar with the SANE_VERSION_(MAJOR|MINOR|BUILD) versions combined
+as per the Perl version numbering, i.e. sane 1.0.19 gives 1.000019. This allows
+simple version comparisons.
 
 =head2 Sane->get_devices
 

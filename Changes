@@ -1,4 +1,9 @@
-Revision history for Perl extension SANE.
+Revision history for Perl extension Sane.
+
+0.03  Mon, 11 May 2009 09:56:37 +0200
+        - Add Sane->get_version_scalar
+        - Don't export SANE_CAP_ALWAYS_SETTABLE unless libsane 1.0.19
+        - Add debug message for sane_open
 
 0.02  Wed Nov 26 20:45:00 2008
 	- Skip most tests if we don't have libsane 1.0.19

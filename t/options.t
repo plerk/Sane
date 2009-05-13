@@ -17,7 +17,8 @@ my @array = Sane->get_version;
 is ($#array, 2, 'get_version');
 
 SKIP: {
-    skip "libsane 1.0.19 or better required", 135 unless $array[2] > 18;
+    skip "libsane 1.0.19 or better required", 135
+     unless Sane->get_version_scalar > 1.000018;
 
 @array = Sane->get_devices;
 cmp_ok($Sane::STATUS, '==', SANE_STATUS_GOOD, 'get_devices');

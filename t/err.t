@@ -13,9 +13,9 @@ BEGIN { use_ok('Sane') };
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my @version = Sane->get_version;
 SKIP: {
-    skip "libsane 1.0.19 or better required", 37 unless $version[2] > 18;
+    skip "libsane 1.0.19 or better required", 37 unless
+     Sane->get_version_scalar > 1.000018;
 
 my $test = Sane::Device->open('test');
 cmp_ok($Sane::STATUS, '==', SANE_STATUS_GOOD, 'opening test backend');

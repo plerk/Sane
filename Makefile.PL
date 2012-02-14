@@ -22,9 +22,8 @@ if (eval {
 }) {
  $lib = $pkgcfg{libs};
  $inc .= $pkgcfg{cflags};
+ $runtime_reqs{libsane} = $pkgcfg{modversion};
 }
-
-$runtime_reqs{libsane} = $pkgcfg{modversion};
 
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.

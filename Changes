@@ -1,5 +1,9 @@
 Revision history for Perl extension Sane.
 
+0.04  Tue, 14 Feb 2012 10:49:23 +0100
+        - Check for opt->size=0
+        - Check for zero-length data
+
 0.03  Mon, 11 May 2009 09:56:37 +0200
         - Add Sane->get_version_scalar
         - Don't export SANE_CAP_ALWAYS_SETTABLE unless libsane 1.0.19

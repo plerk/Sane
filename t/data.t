@@ -5,7 +5,7 @@
 
 # change 'tests => 1' to 'tests => last_test_to_print';
 
-use Test::More tests => 17;
+use Test::More;
 BEGIN { use_ok('Sane') };
 
 #########################
@@ -13,9 +13,7 @@ BEGIN { use_ok('Sane') };
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my @version = Sane->get_version;
-SKIP: {
-    skip "libsane 1.0.19 or better required", 18
+plan skip_all => 'libsane 1.0.19 or better required'
      unless Sane->get_version_scalar > 1.000018;
 
 my $test = Sane::Device->open('test');
@@ -26,6 +24,17 @@ is ($options->{name}, 'test-picture', 'test-picture');
 
 my $info = $test->set_option(10, 'Color pattern');
 cmp_ok($Sane::STATUS, '==', SANE_STATUS_GOOD, 'Color pattern');
+
+my $n = $test->get_option(0);
+my $read_length_zero;
+if ($n > 52) {
+  $options = $test->get_option_descriptor(52);
+  if ($options->{name} eq 'read-length-zero') {
+    $read_length_zero = 1;
+    $info = $test->set_option(52, SANE_TRUE);
+    cmp_ok($Sane::STATUS, '==', SANE_STATUS_GOOD, 'read-length-zero');
+  }
+}
 
 $options = $test->get_option_descriptor(2);
 cmp_ok($Sane::STATUS, '==', SANE_STATUS_GOOD, 'Modes');
@@ -51,6 +60,8 @@ for my $mode (@{$options->{constraint}}) {
   my ($data, $len);
   do {
    ($data, $len) = $test->read ($param->{bytes_per_line});
+   is (length($data), 0, 'length-zero')
+     if ($read_length_zero and $len == 0 and $Sane::STATUS == SANE_STATUS_GOOD);
    print $fh substr($data, 0, $len) if ($data);
   }
   while ($Sane::STATUS == SANE_STATUS_GOOD);
@@ -62,4 +73,5 @@ for my $mode (@{$options->{constraint}}) {
   close $fh;
  }
 }
-};
+
+done_testing();

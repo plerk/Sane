@@ -251,7 +251,7 @@ our @EXPORT = qw(
     SANE_NAME_LAMP_OFF_AT_EXIT
 );
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 our $DEBUG = 0;
 our ($STATUS, $_status, $_vc);
 
@@ -682,7 +682,7 @@ Jeffrey Ratcliffe, E<lt>Jeffrey.Ratcliffe@gmail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2008 by Jeffrey Ratcliffe
+Copyright (C) 2008--2012 by Jeffrey Ratcliffe
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.5 or,

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008 by Jeffrey Ratcliffe <Jeffrey.Ratcliffe@gmail.com>
+ * Copyright (c) 2008--2012 by Jeffrey Ratcliffe <Jeffrey.Ratcliffe@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify
  * it under the same terms as Perl itself, either Perl version 5.8.5 or,

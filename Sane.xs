@@ -96,6 +96,10 @@ sane_get_option (h, n)
                	if (SvTRUE(sv)) printf("Getting option %d from SANE_Handle %d\n", n, (int) h);
 		opt = sane_get_option_descriptor (h, n);
                 if (!opt) croak("Error getting sane_get_option_descriptor");
+                if ( opt->size == 0 ) {
+                        XSRETURN_UNDEF;
+                        return;
+                }
 		value = malloc (opt->size);
 		if (!value) croak("Error allocating memory");
 		status = sane_control_option (h, n, SANE_ACTION_GET_VALUE, value, 0);
@@ -281,7 +285,7 @@ sane_read (handle, max_length)
                 	XPUSHs(sv_2mortal(newSViv(0)));
                 }
                 else {
-                	XPUSHs(sv_2mortal(newSVpv(data, length)));
+                	XPUSHs(sv_2mortal(newSVpvn(data, length)));
 			XPUSHs(sv_2mortal(newSViv(length)));
                 }
                 free (data);

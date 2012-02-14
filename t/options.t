@@ -5,7 +5,7 @@
 
 # change 'tests => 1' to 'tests => last_test_to_print';
 
-use Test::More tests => 139;
+use Test::More;
 BEGIN { use_ok('Sane') };
 
 #########################
@@ -13,12 +13,11 @@ BEGIN { use_ok('Sane') };
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
+plan skip_all => 'libsane 1.0.19 or better required'
+     unless Sane->get_version_scalar > 1.000018;
+
 my @array = Sane->get_version;
 is ($#array, 2, 'get_version');
-
-SKIP: {
-    skip "libsane 1.0.19 or better required", 135
-     unless Sane->get_version_scalar > 1.000018;
 
 @array = Sane->get_devices;
 cmp_ok($Sane::STATUS, '==', SANE_STATUS_GOOD, 'get_devices');
@@ -124,4 +123,5 @@ if ($options->{name} eq 'enable-test-options') {
   }
  }
 }
-};
+
+done_testing();

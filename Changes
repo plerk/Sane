@@ -1,5 +1,9 @@
 Revision history for Perl extension Sane.
 
+0.05  Mon, 02 Apr 2012 08:38 +0200
+        - Export SANE_NAME_PAGE_WIDTH SANE_NAME_PAGE_HEIGHT
+        - fix 'cast from pointer to integer of different size' warnings
+
 0.04  Tue, 14 Feb 2012 10:49:23 +0100
         - Check for opt->size=0
         - Check for zero-length data

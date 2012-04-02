@@ -13,7 +13,7 @@ sane_DESTROY (handle)
 		SANE_Handle	handle
         CODE:
        		SV* sv = get_sv("Sane::DEBUG", FALSE);
-               	if (SvTRUE(sv)) printf("Closing SANE_Handle %d\n", (int) handle);
+               	if (SvTRUE(sv)) printf("Closing SANE_Handle %p\n", (void *) handle);
 		sane_close(handle);
 
 void
@@ -28,7 +28,7 @@ sane_get_option_descriptor (h, n)
                 int i;
         PPCODE:
        		SV* sv = get_sv("Sane::DEBUG", FALSE);
-               	if (SvTRUE(sv)) printf("Getting option description %d from SANE_Handle %d\n", n, (int) h);
+               	if (SvTRUE(sv)) printf("Getting option description %d from SANE_Handle %p\n", n, (void *) h);
 		opt = sane_get_option_descriptor (h, n);
                 if (!opt) croak("Error getting sane_get_option_descriptor");
 		if (opt->name != NULL) {
@@ -93,7 +93,7 @@ sane_get_option (h, n)
 		const SANE_Option_Descriptor *	opt;
         PPCODE:
        		SV* sv = get_sv("Sane::DEBUG", FALSE);
-               	if (SvTRUE(sv)) printf("Getting option %d from SANE_Handle %d\n", n, (int) h);
+               	if (SvTRUE(sv)) printf("Getting option %d from SANE_Handle %p\n", n, (void *) h);
 		opt = sane_get_option_descriptor (h, n);
                 if (!opt) croak("Error getting sane_get_option_descriptor");
                 if ( opt->size == 0 ) {
@@ -147,7 +147,7 @@ sane_set_auto (h, n)
 		SANE_Int	info;
         PPCODE:
        		SV* sv = get_sv("Sane::DEBUG", FALSE);
-               	if (SvTRUE(sv)) printf("Setting option %d to automatic on SANE_Handle %d\n", n, (int) h);
+               	if (SvTRUE(sv)) printf("Setting option %d to automatic on SANE_Handle %p\n", n, (void *) h);
 		status = sane_control_option (h, n, SANE_ACTION_SET_AUTO, 0, &info);
        		sv = get_sv("Sane::_status", FALSE);
                 sv_setiv(sv, status); 
@@ -171,7 +171,7 @@ sane_set_option (h, n, value)
 		char *		string;
         PPCODE:
        		SV* sv = get_sv("Sane::DEBUG", FALSE);
-               	if (SvTRUE(sv)) printf("Setting option %d on SANE_Handle %d\n", n, (int) h);
+               	if (SvTRUE(sv)) printf("Setting option %d on SANE_Handle %p\n", n, (void *) h);
 		opt = sane_get_option_descriptor (h, n);
                 if (!opt) croak("Error getting sane_get_option_descriptor");
 		switch (opt->type) {
@@ -236,7 +236,7 @@ sane_start (handle)
         	SANE_Status	status;
 	CODE:
        		SV* sv = get_sv("Sane::DEBUG", FALSE);
-               	if (SvTRUE(sv)) printf("Running sane_start for SANE_Handle %d\n", (int) handle);
+               	if (SvTRUE(sv)) printf("Running sane_start for SANE_Handle %p\n", (void *) handle);
        		status = sane_start(handle);
                 sv = get_sv("Sane::_status", FALSE);
                 sv_setiv(sv, status); 
@@ -250,7 +250,7 @@ sane_get_parameters (handle)
                	HV* hv = (HV*) sv_2mortal((SV*) newHV());
         PPCODE:
        		SV* sv = get_sv("Sane::DEBUG", FALSE);
-               	if (SvTRUE(sv)) printf("Getting parameters for SANE_Handle %d\n", (int) handle);
+               	if (SvTRUE(sv)) printf("Getting parameters for SANE_Handle %p\n", (void *) handle);
 		status = sane_get_parameters (handle, &params);
 		sv = get_sv("Sane::_status", FALSE);
                 sv_setiv(sv, status);
@@ -302,7 +302,7 @@ sane_set_io_mode (handle, non_blocking)
 		SANE_Status	status;
 	CODE:
        		SV* sv = get_sv("Sane::DEBUG", FALSE);
-               	if (SvTRUE(sv)) printf("Setting IO mode to %d on SANE_Handle %d\n", non_blocking, (int) handle);
+               	if (SvTRUE(sv)) printf("Setting IO mode to %d on SANE_Handle %p\n", non_blocking, (void *) handle);
        		status = sane_set_io_mode (handle, non_blocking);
                 sv = get_sv("Sane::_status", FALSE);
                 sv_setiv(sv, status); 
@@ -315,7 +315,7 @@ sane_get_select_fd (handle)
 		SANE_Int	fd;
         PPCODE:
        		SV* sv = get_sv("Sane::DEBUG", FALSE);
-               	if (SvTRUE(sv)) printf("Getting file handle of SANE_Handle %d\n", (int) handle);
+               	if (SvTRUE(sv)) printf("Getting file handle of SANE_Handle %p\n", (void *) handle);
 		status = sane_get_select_fd (handle, &fd);
                 sv = get_sv("Sane::_status", FALSE);
                 sv_setiv(sv, status); 
@@ -407,6 +407,12 @@ BOOT:
 	newCONSTSUB(stash, "SANE_NAME_SCAN_RESOLUTION", newSVpv(SANE_NAME_SCAN_RESOLUTION, 0));
 	newCONSTSUB(stash, "SANE_NAME_SCAN_X_RESOLUTION", newSVpv(SANE_NAME_SCAN_X_RESOLUTION, 0));
 	newCONSTSUB(stash, "SANE_NAME_SCAN_Y_RESOLUTION", newSVpv(SANE_NAME_SCAN_Y_RESOLUTION, 0));
+#ifdef SANE_NAME_PAGE_WIDTH
+	newCONSTSUB(stash, "SANE_NAME_PAGE_WIDTH", newSVpv(SANE_NAME_PAGE_WIDTH, 0));
+#endif
+#ifdef SANE_NAME_PAGE_HEIGHT
+	newCONSTSUB(stash, "SANE_NAME_PAGE_HEIGHT", newSVpv(SANE_NAME_PAGE_HEIGHT, 0));
+#endif
 	newCONSTSUB(stash, "SANE_NAME_CUSTOM_GAMMA", newSVpv(SANE_NAME_CUSTOM_GAMMA, 0));
 	newCONSTSUB(stash, "SANE_NAME_GAMMA_VECTOR", newSVpv(SANE_NAME_GAMMA_VECTOR, 0));
 	newCONSTSUB(stash, "SANE_NAME_GAMMA_VECTOR_R", newSVpv(SANE_NAME_GAMMA_VECTOR_R, 0));
@@ -556,7 +562,7 @@ sane__open(class, name)
         PPCODE:
         	status = sane_open(name, &h);
 		SV* sv = get_sv("Sane::DEBUG", FALSE);
-		if (SvTRUE(sv)) printf("sane_open returned SANE_Handle %d\n", (int) h);
+		if (SvTRUE(sv)) printf("sane_open returned SANE_Handle %p\n", (void *) h);
                 sv = get_sv("Sane::_status", FALSE);
                 sv_setiv(sv, status); 
                 if (status) {

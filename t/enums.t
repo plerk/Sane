@@ -5,7 +5,7 @@
 
 # change 'tests => 1' to 'tests => last_test_to_print';
 
-use Test::More tests => 115;
+use Test::More tests => 117;
 BEGIN { use_ok('Sane') };
 
 #########################
@@ -53,7 +53,7 @@ is (SANE_CAP_INACTIVE,         32, "SANE_CAP_INACTIVE");
 is (SANE_CAP_ADVANCED,         64, "SANE_CAP_ADVANCED");
 
 SKIP: {
- skip 'Only available in libsane 1.0.19', 1
+ skip 'SANE_CAP_ALWAYS_SETTABLE only available in libsane 1.0.19', 1
   unless Sane->get_version_scalar == 1.000019;
  is (SANE_CAP_ALWAYS_SETTABLE, 128, "SANE_CAP_ALWAYS_SETTABLE");
 };
@@ -88,6 +88,8 @@ is (SANE_NAME_SCAN_BR_Y,		"br-y", "SANE_NAME_SCAN_BR_Y");
 is (SANE_NAME_SCAN_RESOLUTION,	"resolution", "SANE_NAME_SCAN_RESOLUTION");
 is (SANE_NAME_SCAN_X_RESOLUTION,	Sane->get_version_scalar == 1.000019 ? "resolution" : "x-resolution", "SANE_NAME_SCAN_X_RESOLUTION");
 is (SANE_NAME_SCAN_Y_RESOLUTION,	"y-resolution", "SANE_NAME_SCAN_Y_RESOLUTION");
+is (SANE_NAME_PAGE_WIDTH,	"page-width", "SANE_NAME_PAGE_WIDTH");
+is (SANE_NAME_PAGE_HEIGHT,	"page-height", "SANE_NAME_PAGE_HEIGHT");
 is (SANE_NAME_CUSTOM_GAMMA,		"custom-gamma", "SANE_NAME_CUSTOM_GAMMA");
 is (SANE_NAME_GAMMA_VECTOR,		"gamma-table", "SANE_NAME_GAMMA_VECTOR");
 is (SANE_NAME_GAMMA_VECTOR_R,	"red-gamma-table", "SANE_NAME_GAMMA_VECTOR_R");

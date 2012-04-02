@@ -89,7 +89,7 @@ if ($options->{name} eq 'enable-test-options') {
    }
    if (defined $in) {
     SKIP: {
-     skip 'Pressing buttons produces too much output', 1 unless $options->{type} != SANE_TYPE_BUTTON;
+     skip 'Pressing buttons produces too much output', 1 if $options->{type} == SANE_TYPE_BUTTON;
 
      $info = $test->set_option($i, $in);
     };
@@ -109,7 +109,12 @@ if ($options->{name} eq 'enable-test-options') {
       cmp_ok($Sane::STATUS, '==', SANE_STATUS_GOOD, 'get_option');
      }
      elsif ($options->{type} == SANE_TYPE_FIXED) {
-      is (abs($out-$in)/$in < 1.e-6, 1, 'get_option');
+      if ($in == 0) {
+       is (abs($out) < 1.e-6, 1, 'get_option');
+      }
+      else {
+       is (abs($out-$in)/$in < 1.e-6, 1, 'get_option');
+      }
      }
      else {
       is_deeply ($out, $in, 'get_option');
